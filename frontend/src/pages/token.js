@@ -2,8 +2,8 @@ import { BigNumber, Contract, providers, utils } from "ethers";
 import Head from "next/head";
 import React, { useEffect, useRef, useState } from "react";
 import Web3Modal from "web3modal";
-import {  TK_NFT,TK_TOKEN } from "../config/abi";
-import  ADDRESS  from "../config/address.json";// import styles from "../styles/Home.module.css";
+import { TK_NFT, TK_TOKEN } from "../config/abi";
+import ADDRESS from "../config/address.json"; // import styles from "../styles/Home.module.css";
 
 export default function Home() {
   // Create a BigNumber `0`
@@ -16,8 +16,7 @@ export default function Home() {
   // based on the TK Dev NFT's held by the user for which they havent claimed the tokens
   const [tokensToBeClaimed, setTokensToBeClaimed] = useState(zero);
   // balanceOfTKDevsTokens keeps track of number of TK Dev tokens owned by an address
-  const [balanceOfTKDevsTokens, setBalanceOfTKDevsTokens] =
-    useState(zero);
+  const [balanceOfTKDevsTokens, setBalanceOfTKDevsTokens] = useState(zero);
   // amount of the tokens that the user wants to mint
   const [tokenAmount, setTokenAmount] = useState(zero);
   // tokensMinted is the total number of tokens that have been minted till now out of 10000(max total supply)
@@ -36,24 +35,16 @@ export default function Home() {
       // No need for the Signer here, as we are only reading state from the blockchain
       const provider = await getProviderOrSigner();
       // Create an instance of NFT Contract
-      const nftContract = new Contract(
-        ADDRESS.TKDevs,
-        TK_NFT,
-        provider
-      );
+      const nftContract = new Contract(ADDRESS.TKDevs, TK_NFT, provider);
       // Create an instance of tokenContract
-      const tokenContract = new Contract(
-        ADDRESS.TKToken,
-        TK_TOKEN,
-        provider
-      );
+      const tokenContract = new Contract(ADDRESS.TKToken, TK_TOKEN, provider);
       // We will get the signer now to extract the address of the currently connected MetaMask account
       const signer = await getProviderOrSigner(true);
       // Get the address associated to the signer which is connected to  MetaMask
       const address = await signer.getAddress();
       // call the balanceOf from the NFT contract to get the number of NFT's held by the user
       const balance = await nftContract.balanceOf(address);
-      console.log("balance",balance);
+      console.log("balance", balance);
       // balance is a Big number and thus we would compare it with Big number `zero`
       if (balance === zero) {
         setTokensToBeClaimed(zero);
@@ -89,11 +80,7 @@ export default function Home() {
       // No need for the Signer here, as we are only reading state from the blockchain
       const provider = await getProviderOrSigner();
       // Create an instance of token contract
-      const tokenContract = new Contract(
-        ADDRESS.TKToken,
-        TK_TOKEN,
-        provider
-      );
+      const tokenContract = new Contract(ADDRESS.TKToken, TK_TOKEN, provider);
       // We will get the signer now to extract the address of the currently connected MetaMask account
       const signer = await getProviderOrSigner(true);
       // Get the address associated to the signer which is connected to  MetaMask
@@ -117,11 +104,7 @@ export default function Home() {
       // Create an instance of tokenContract
       const signer = await getProviderOrSigner(true);
       // Create an instance of tokenContract
-      const tokenContract = new Contract(
-        ADDRESS.TKToken,
-        TK_TOKEN,
-        signer
-      );
+      const tokenContract = new Contract(ADDRESS.TKToken, TK_TOKEN, signer);
       // Each token is of `0.001 ether`. The value we need to send is `0.001 * amount`
       const value = 0.001 * amount;
       const tx = await tokenContract.mint(amount, {
@@ -151,11 +134,7 @@ export default function Home() {
       // Create an instance of tokenContract
       const signer = await getProviderOrSigner(true);
       // Create an instance of tokenContract
-      const tokenContract = new Contract(
-        ADDRESS.TKToken,
-        TK_TOKEN,
-        signer
-      );
+      const tokenContract = new Contract(ADDRESS.TKToken, TK_TOKEN, signer);
       const tx = await tokenContract.claim();
       setLoading(true);
       // wait for the transaction to get mined
@@ -180,11 +159,7 @@ export default function Home() {
       // No need for the Signer here, as we are only reading state from the blockchain
       const provider = await getProviderOrSigner();
       // Create an instance of token contract
-      const tokenContract = new Contract(
-        ADDRESS.TKToken,
-        TK_TOKEN,
-        provider
-      );
+      const tokenContract = new Contract(ADDRESS.TKToken, TK_TOKEN, provider);
       // Get all the tokens that have been minted
       const _tokensMinted = await tokenContract.totalSupply();
       setTokensMinted(_tokensMinted);
@@ -199,11 +174,7 @@ export default function Home() {
   const getOwner = async () => {
     try {
       const provider = await getProviderOrSigner();
-      const tokenContract = new Contract(
-        ADDRESS.TKToken,
-        TK_TOKEN,
-        provider
-      );
+      const tokenContract = new Contract(ADDRESS.TKToken, TK_TOKEN, provider);
       // call the owner function from the contract
       const _owner = await tokenContract.owner();
       // we get signer to extract address of currently connected Metamask account
@@ -225,11 +196,7 @@ export default function Home() {
   const withdrawCoins = async () => {
     try {
       const signer = await getProviderOrSigner(true);
-      const tokenContract = new Contract(
-        ADDRESS.TKToken,
-        TK_TOKEN,
-        signer
-      );
+      const tokenContract = new Contract(ADDRESS.TKToken, TK_TOKEN, signer);
 
       const tx = await tokenContract.withdraw();
       setLoading(true);
@@ -380,20 +347,24 @@ export default function Home() {
               </div>
               <div className={"description"}>
                 {/* Format Ether helps us in converting a BigNumber to string */}
-                Overall {utils.formatEther(tokensMinted)}/10000 have been minted!!!
+                Overall {utils.formatEther(tokensMinted)}/10000 have been
+                minted!!!
               </div>
               {renderButton()}
               {/* Display additional withdraw button if connected wallet is owner */}
-                {isOwner ? (
-                  <div>
-                  {loading ? <button className={"button"}>Loading...</button>
-                           : <button className={"button"} onClick={withdrawCoins}>
-                               Withdraw Coins
-                             </button>
-                  }
-                  </div>
-                  ) : ("")
-                }
+              {isOwner ? (
+                <div>
+                  {loading ? (
+                    <button className={"button"}>Loading...</button>
+                  ) : (
+                    <button className={"button"} onClick={withdrawCoins}>
+                      Withdraw Coins
+                    </button>
+                  )}
+                </div>
+              ) : (
+                ""
+              )}
             </div>
           ) : (
             <button onClick={connectWallet} className={"button"}>
@@ -402,13 +373,13 @@ export default function Home() {
           )}
         </div>
         <div>
-        <img className={"image"} alt="bc" src="./blockchain-future-background-animated-YIIkq3pavF-watermarked.png" />
+          <img
+            className={"image"}
+            alt="bc"
+            src="./blockchain-future-background-animated-YIIkq3pavF-watermarked.png"
+          />
         </div>
       </div>
-
-      <footer className={"footer"}>
-        Made with &#10084; by TK Devs
-      </footer>
     </div>
   );
 }

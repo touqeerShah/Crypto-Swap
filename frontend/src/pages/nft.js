@@ -2,8 +2,8 @@ import { Contract, providers, utils } from "ethers";
 import Head from "next/head";
 import React, { useEffect, useRef, useState } from "react";
 import Web3Modal from "web3modal";
-import {  TK_NFT } from "../config/abi";
-import  ADDRESS  from "../config/address.json";// import styles from "../styles/Home.module.css";
+import { TK_NFT } from "../config/abi";
+import ADDRESS from "../config/address.json"; // import styles from "../styles/Home.module.css";
 
 export default function NFT() {
   // walletConnected keep track of whether the user's wallet is connected or not
@@ -124,7 +124,7 @@ export default function NFT() {
       const nftContract = new Contract(ADDRESS.TKDevs, TK_NFT, provider);
       // call the presaleStarted from the contract
       const _presaleStarted = await nftContract.presaleStarted();
-      console.log("_presaleStarted",_presaleStarted);
+      console.log("_presaleStarted", _presaleStarted);
       if (!_presaleStarted) {
         await getOwner();
       }
@@ -326,8 +326,8 @@ export default function NFT() {
       return (
         <div>
           <div className={"description"}>
-            Presale has started!!! If your address is whitelisted, Mint a TK
-            Dev 🥳
+            Presale has started!!! If your address is whitelisted, Mint a TK Dev
+            🥳
           </div>
           <button className={"button"} onClick={presaleMint}>
             Presale Mint 🚀
@@ -365,13 +365,13 @@ export default function NFT() {
           {renderButton()}
         </div>
         <div>
-        <img className={"image"} alt="bc" src="./blockchain-future-background-animated-YIIkq3pavF-watermarked.png" />
+          <img
+            className={"image"}
+            alt="bc"
+            src="./blockchain-future-background-animated-YIIkq3pavF-watermarked.png"
+          />
         </div>
       </div>
-
-      <footer className={"footer"}>
-        Made with &#10084; by TK Devs
-      </footer>
     </div>
   );
 }

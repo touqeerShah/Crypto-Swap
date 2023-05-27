@@ -2,12 +2,12 @@ import Head from "next/head";
 import Web3Modal from "web3modal";
 import { providers, Contract } from "ethers";
 import { useEffect, useRef, useState } from "react";
-import {  WHITELIST_CONTRACT_ABI } from "../config/abi";
-import  ADDRESS  from "../config/address.json";
-import { useRouter } from 'next/router'
+import { WHITELIST_CONTRACT_ABI } from "../config/abi";
+import ADDRESS from "../config/address.json";
+import { useRouter } from "next/router";
 
 export default function Home() {
-  const router = useRouter()
+  const router = useRouter();
 
   // walletConnected keep track of whether the user's wallet is connected or not
   const [walletConnected, setWalletConnected] = useState(false);
@@ -40,7 +40,7 @@ export default function Home() {
 
     // If user is not connected to the Goerli network, let them know and throw an error
     const { chainId } = await web3Provider.getNetwork();
-    console.log("chainId =>",chainId);
+    console.log("chainId =>", chainId);
     if (chainId !== 11155111) {
       window.alert("Change the network to sepolia");
       throw new Error("Change network to Hardhat");
@@ -62,15 +62,16 @@ export default function Home() {
       const signer = await getProviderOrSigner(true);
       // Create a new instance of the Contract with a Signer, which allows
       // update methods
-      console.log("        ADDRESS.Whitelist     "  ,      ADDRESS.Whitelist
-      );
+      console.log("        ADDRESS.Whitelist     ", ADDRESS.Whitelist);
       const whitelistContract = new Contract(
         ADDRESS.Whitelist,
         WHITELIST_CONTRACT_ABI,
         signer
       );
       // call the addAddressToWhitelist from the contract
-      const tx = await whitelistContract.connect(signer).addAddressToWhitelist();
+      const tx = await whitelistContract
+        .connect(signer)
+        .addAddressToWhitelist();
       setLoading(true);
       // wait for the transaction to get mined
       await tx.wait();
@@ -151,38 +152,38 @@ export default function Home() {
   };
 
   useEffect(() => {
-    let fatch=async()=>{
-    if (web3ModalRef) {
-      const handleAccountsChanged = async(accounts) => {
-        // eslint-disable-next-line no-console
-        console.log('accountsChanged', accounts)
-        await getProviderOrSigner();
-        setWalletConnected(true);
-  
-        checkIfAddressInWhitelist();
-        getNumberOfWhitelisted();
+    let fatch = async () => {
+      if (web3ModalRef) {
+        const handleAccountsChanged = async (accounts) => {
+          // eslint-disable-next-line no-console
+          console.log("accountsChanged", accounts);
+          await getProviderOrSigner();
+          setWalletConnected(true);
+
+          checkIfAddressInWhitelist();
+          getNumberOfWhitelisted();
+          // router.reload()
+          // dispatch({
+          //   type: 'SET_ADDRESS',
+          //   address: accounts[0],
+          // })
+        };
+
+        web3ModalRef.current = new Web3Modal({
+          network: "goerli",
+          providerOptions: {},
+          disableInjectedProvider: false,
+        });
+        const provider = await web3ModalRef.current.connect();
+        const web3Provider = new providers.Web3Provider(provider);
+
+        web3Provider.provider.on("accountsChanged", handleAccountsChanged);
+        // Subscription Cleanup
         // router.reload()
-        // dispatch({
-        //   type: 'SET_ADDRESS',
-        //   address: accounts[0],
-        // })
-
       }
-
-      web3ModalRef.current = new Web3Modal({
-        network: "goerli",
-        providerOptions: {},
-        disableInjectedProvider: false,
-      });
-      const provider = await web3ModalRef.current.connect();
-      const web3Provider = new providers.Web3Provider(provider);
-
-      web3Provider.provider.on('accountsChanged', handleAccountsChanged)
-      // Subscription Cleanup
-      // router.reload()
-    }}
-    fatch()
-  }, [web3ModalRef])
+    };
+    fatch();
+  }, [web3ModalRef]);
   /*
     renderButton: Returns a button based on the state of the dapp
   */
@@ -190,9 +191,7 @@ export default function Home() {
     if (walletConnected) {
       if (joinedWhitelist) {
         return (
-          <div className={"description"}>
-            Thanks for joining the Whitelist!
-          </div>
+          <div className={"description"}>Thanks for joining the Whitelist!</div>
         );
       } else if (loading) {
         return <button className={"button"}>Loading...</button>;
@@ -249,13 +248,13 @@ export default function Home() {
           {renderButton()}
         </div>
         <div>
-          <img className={"image"} alt="bc" src="./blockchain-future-background-animated-YIIkq3pavF-watermarked.png" />
+          <img
+            className={"image"}
+            alt="bc"
+            src="./blockchain-future-background-animated-YIIkq3pavF-watermarked.png"
+          />
         </div>
       </div>
-
-      <footer className={"footer"}>
-        Made with &#10084; by TK Devs
-      </footer>
     </div>
   );
 }

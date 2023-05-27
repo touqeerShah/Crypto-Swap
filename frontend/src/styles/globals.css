@@ -43,6 +43,15 @@ body {
   align-items: center;
 }
 
+.nav {
+  display: flex;
+  padding: 2rem 0;
+  border-bottom: 1px solid #eaeaea;
+  justify-content: center;
+  align-items: center;
+  margin-bottom:20px ;
+}
+
 .image {
   width: 70%;
   height: 50%;
@@ -62,7 +71,7 @@ body {
 
 .button {
   border-radius: 4px;
-  background-color: blue;
+  background-color: #04AA6D;
   border: none;
   color: #ffffff;
   font-size: 15px;
@@ -76,7 +85,7 @@ body {
 
 .button2 {
   border-radius: 4px;
-  background-color: indigo;
+  background-color: #184b38;
   border: none;
   color: #ffffff;
   font-size: 15px;
@@ -110,4 +119,27 @@ body {
     justify-content: center;
     align-items: center;
   }
+}
+.topnav {
+  overflow: hidden;
+  /* background-color: #333; */
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
 }

@@ -310,7 +310,7 @@ export default function Home() {
             placeholder="Amount of Tokens"
             // BigNumber.from converts the `e.target.value` to a BigNumber
             onChange={(e) => setTokenAmount(BigNumber.from(e.target.value))}
-            className={"input"}
+            className="border-0 px-3 py-3 placeholder-blueGray-300 text-black bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
           />
         </div>
 

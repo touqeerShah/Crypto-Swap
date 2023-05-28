@@ -102,6 +102,17 @@ body {
   flex: 1;
   flex-direction: column;
 }
+.button1 {
+  border-radius: 4px;
+  background-color: #04AA6D;
+  border: none;
+  color: #ffffff;
+  font-size: 15px;
+  padding: 5px;
+  width: 100px;
+  cursor: pointer;
+  margin: 2%;
+}
 
 .container {
   margin-top: 2rem;
